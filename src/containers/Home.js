@@ -5,6 +5,15 @@ import Header from '../components/Header';
 import s from './Home.module.scss';
 
 class Home extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { isOpen: true }
+  }
+  toggle() {
+    this.setState({
+      isOpen: !this.state.isOpen
+    });
+  }
   render() {
     return <div>
       <Header
@@ -13,9 +22,10 @@ class Home extends Component {
         <h1 className={s.blogname}>Jip Blog</h1>
         <hr className="small" />
         <span className="subheading">A Clean Blog Theme by Start Bootstrap</span>
+        <button onClick={this.toggle.bind(this)}>Toggle</button>
       </Header>
 
-      <div className="container">
+      {this.state.isOpen && <div className="container">
           <div className="row">
               <div className="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                   <div className="post-preview">
@@ -70,7 +80,7 @@ class Home extends Component {
                   </ul>
               </div>
           </div>
-      </div>
+      </div>}
     </div>;
   }
 }
