@@ -5,25 +5,33 @@ import Header from '../components/Header';
 import s from './Home.module.scss';
 
 class Home extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { data: null }
-  }
+  // constructor(props) {
+  //   super(props);
+  //   this.state = { data: null }
+  // }
 
   componentWillMount() {
-    $.get('http://jsonplaceholder.typicode.com/posts', res => {
-      this.setState({
-        data: res.slice(0,4)
-      });
-    })
+    // $.get('http://jsonplaceholder.typicode.com/posts', res => {
+    //   this.setState({
+    //     data: res
+    //   });
+    // })
+    if (! this.context.state.posts) {
+      $.get('http://jsonplaceholder.typicode.com/posts', res => {
+        this.context.dispatch({
+          type: 'POSTS/GET',
+          payload: res.slice(0,4)
+        });
+      })
+    }
   }
 
   renderPosts() {
-    if (! this.state.data) {
+    if (! this.context.state.posts) {
       return <div>Loading...</div>;
     }
 
-    const posts = this.state.data.map(post => {
+    const posts = this.context.state.posts.map(post => {
       return <div key={post.id}>
         <div className="post-preview">
           <Link to="/posts/1">
@@ -68,6 +76,11 @@ class Home extends Component {
       </div>
     </div>;
   }
+}
+
+Home.contextTypes = {
+  state: PropTypes.object,
+  dispatch: PropTypes.func
 }
 
 export default Home;
