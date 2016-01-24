@@ -7,7 +7,7 @@ import s from './Home.module.scss';
 class Home extends Component {
   constructor(props) {
     super(props);
-    this.state = { data: null }
+    this.state = { isOpen: true, data: null }
   }
 
   componentWillMount() {
@@ -16,6 +16,12 @@ class Home extends Component {
         data: res.slice(0,4)
       });
     })
+  }
+
+  toggle() {
+    this.setState({
+      isOpen: !this.state.isOpen
+    });
   }
 
   renderPosts() {
@@ -51,9 +57,10 @@ class Home extends Component {
         <h1 className={s.blogname}>Jip Blog</h1>
         <hr className="small" />
         <span className="subheading">A Clean Blog Theme by Start Bootstrap</span>
+        <button onClick={this.toggle.bind(this)}>Toggle</button>
       </Header>
 
-      <div className="container">
+      {this.state.isOpen && <div className="container">
           <div className="row">
               <div className="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
 
@@ -65,7 +72,7 @@ class Home extends Component {
                   </ul>
               </div>
           </div>
-      </div>
+      </div>}
     </div>;
   }
 }
